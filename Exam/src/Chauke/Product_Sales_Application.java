@@ -35,7 +35,8 @@ public class Product_Sales_Application extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtArea = new javax.swing.JTextArea();
+        lblYears = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,21 +73,27 @@ public class Product_Sales_Application extends javax.swing.JFrame {
 
         jButton2.setText("Save Product Data");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtArea.setColumns(20);
+        txtArea.setRows(5);
+        jScrollPane1.setViewportView(txtArea);
+
+        lblYears.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(lblYears)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -98,7 +105,9 @@ public class Product_Sales_Application extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(lblYears)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Edit", jPanel3);
@@ -118,9 +127,33 @@ public class Product_Sales_Application extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      String output = "Processed: " + ;
-            frameReference.updateLabelText(output); // Update the label in MyFrame
-        }
+          int total = 0; 
+        int count = 0;         
+        int over = 0;         
+        int under = 0; 
+ 
+        for (int[] productRow : sales) 
+        {             
+            for (int y : productRow) 
+            {                 
+                total += y;                 
+                count++;                 
+                if (y >= SALES_LIMIT) 
+                    over++;                 
+                else under++; 
+            } 
+        } 
+        double average = count == 0 ? 0 : (total / (double) count);         int years = sales[0].length; // number of columns 
+ 
+        // Build the report text (matches the style in the paper)         StringBuilder sb = new StringBuilder();         sb.append("*******************************\n");         sb.append("*  PRODUCT SALES REPORT – 2025 *\n");         sb.append("*******************************\n");         sb.append(String.format("Total sales: %d%n", total));         sb.append(String.format("Average sales: %.0f%n", average));         sb.append(String.format("Sales over limit %d: %d%n", SALES_LIMIT, over));         sb.append(String.format("Sales under limit %d: %d%n", SALES_LIMIT, under)); 
+ 
+        txtArea.setText(sb.toString());         
+        lblYears.setText("Years Processed: " + years); 
+    } 
+
+                                     
+// ...exist
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -156,6 +189,7 @@ public class Product_Sales_Application extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblYears;
+    private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
 }
