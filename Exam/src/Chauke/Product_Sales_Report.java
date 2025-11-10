@@ -1,54 +1,81 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// ...existing code...
 package Chauke;
 
 import java.util.stream.IntStream;
+//ChatGPT was consulted for initial topic brainstorm only
 
-/**
- *
- * @author Khanya's
- */
-public class Product_Sales_Report 
-{
-    public class property_Sales {
+public class Product_Sales_Report implements IProductSales {
 
-    private int[] Year_1 = {300, 150, 700};
-    private int[] Year_2 = {250, 200, 600};
+    private int[][] productSales = {
+        {300, 150, 700}, // Year 1
+        {250, 200, 600}  // Year 2
+    };
 
-    public property_Sales() {
-        int sum1 = IntStream.of(Year_1).sum();
-        int sum2=IntStream.of(Year_2).sum();
-        int total=sum1+sum2;
-        double Avg=total/6;
-        int max = 0;
-for (int i = 0; i < Year_1.length; i++) {
-    max = i;
-    for (int j = i + 1; j < Year_1.length; j++) 
-    {
- 
-        
-
+    public Product_Sales_Report() {
     }
- int minYear1 = Year_1[0];
-            int maxYear1 = Year_1[0];
-            for (int v : Year_1) {
-                if (v < minYear1) minYear1 = v;
-                if (v > maxYear1) maxYear1 = v;
-            }
 
-            // compute min/max for Year_2
-            int minYear2 = Year_2[0];
-            int maxYear2 = Year_2[0];
-            for (int v : Year_2) {
-                if (v < minYear2) minYear2 = v;
-                if (v > maxYear2) maxYear2 = v;
-            }
-
-    public static void main(String[] args) {
-       
+    @Override
+    public int TotalSales(int[][] productSales) {
+        int total = 0;
+        for (int[] year : productSales) {
+            for (int v : year) total += v;
+        }
+        return total;
     }
-}
 
+    @Override
+    public double AverageSales(int[][] productSales) {
+        int count = 0;
+        int total = 0;
+        for (int[] year : productSales) {
+            for (int v : year) {
+                total += v;
+                count++;
+            }
+        }
+        return count == 0 ? 0 : total / (double) count;
+    }
+
+    @Override
+    public int MaxSale(int[][] productSales) {
+        int max = Integer.MIN_VALUE;
+        for (int[] year : productSales) {
+            for (int v : year) if (v > max) max = v;
+        }
+        return max;
+    }
+
+    @Override
+    public int MinSale(int[][] productSales) {
+        int min = Integer.MAX_VALUE;
+        for (int[] year : productSales) {
+            for (int v : year) if (v < min) min = v;
+        }
+        return min;
+    }
+
+    /**
+     * Convenience: produce the formatted report for the internal productSales array.
+     */
+    public String getReport() {
+        int total = TotalSales(productSales);
+        double avg = AverageSales(productSales);
+        int max = MaxSale(productSales);
+        int min = MinSale(productSales);
+
+        return String.format(
+            "PRODUCT SALES REPORT – 2025%n" +
+            "----------------------------%n" +
+            "Total sales: %d%n" +
+            "Average sales: %.0f%n" +
+            "Maximum sale: %d%n" +
+            "Minimum sale: %d",
+            total, avg, max, min
+        );
+    }
+
+    // optional: expose the built-in data if needed
+    public int[][] getProductSalesData() {
+        return productSales;
+    }
 }
