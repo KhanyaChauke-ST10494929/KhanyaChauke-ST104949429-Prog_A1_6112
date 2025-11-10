@@ -19,27 +19,26 @@ public class ProductSalesTest {
     
     public ProductSalesTest() {
     }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+
+
+public class ProductSalesUnitTest {
+
+    private final int[][] SAMPLE = {
+        {300, 150, 700}, // Year 1
+        {250, 200, 600}  // Year 2
+    };
+
+    @Test
+    void CalculateTotalSales() {
+        ProductSales ps = new ProductSales();
+        assertEquals(2200, ps.TotalSales(SAMPLE), "Total sales should be 2200");
     }
 
     @Test
-    public void testSomeMethod() {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    void AverageSales() {
+        ProductSales ps = new ProductSales();
+        assertEquals(2200 / 6.0, ps.AverageSales(SAMPLE), 1e-9, "Average sales should be total/6");
     }
+}
     
 }
